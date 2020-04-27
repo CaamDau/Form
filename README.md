@@ -1,3 +1,13 @@
+<p>
+  <img src="https://github.com/liucaide/Images/blob/master/CaamDau/caamdau.png" align=centre />
+</p>
+
+[![CI Status](https://img.shields.io/travis/CaamDau/Form.svg?style=flat)](https://travis-ci.org/CaamDau/Form)
+[![Version](https://img.shields.io/cocoapods/v/CaamDauForm.svg?style=flat)](https://cocoapods.org/pods/CaamDauForm)
+[![License](https://img.shields.io/cocoapods/l/CaamDauForm.svg?style=flat)](https://cocoapods.org/pods/CaamDauForm)
+[![Platform](https://img.shields.io/cocoapods/p/CaamDauForm.svg?style=flat)](https://cocoapods.org/pods/CaamDauForm)
+[![](https://img.shields.io/badge/Swift-4.0~5.0-orange.svg?style=flat)](https://cocoapods.org/pods/CaamDauForm)
+
 # CD_Form  （[OC版本在这里](https://github.com/liucaide/CaamDauObjC)）
 
 ```ruby

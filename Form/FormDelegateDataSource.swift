@@ -2,9 +2,9 @@
 
 /***** 模块文档 *****
 *  Form 数据代理类
-* 将 TableView CollectionView 的 Delegate DataSource 设置为 CD_FormDelegateDataSource
+* 将 TableView CollectionView 的 Delegate DataSource 设置为 FormDelegateDataSource
  可实现Form模板化，无需 编写 Delegate DataSource 代码，
- 特殊需求 可继承CD_FormDelegateDataSource，重写 Delegate DataSource 方法
+ 特殊需求 可继承FormDelegateDataSource，重写 Delegate DataSource 方法
  
 */
 
@@ -12,21 +12,21 @@
 import Foundation
 import UIKit
 
-open class CD_FormDelegateDataSource: NSObject {
-    open var form: CD_FormProtocol?
+open class FormDelegateDataSource: NSObject {
+    open var form: FormProtocol?
     private override init(){}
-    public init(_ form:CD_FormProtocol?) {
+    public init(_ form:FormProtocol?) {
         self.form = form
     }
 }
 
 
 //MARK:--- TableView DelegateDataSource ----------
-open class CD_FormTableViewDelegateDataSource: CD_FormDelegateDataSource {
+open class FormTableViewDelegateDataSource: FormDelegateDataSource {
     
 }
 
-extension CD_FormTableViewDelegateDataSource {
+extension FormTableViewDelegateDataSource {
     @objc open func makeReloadData(_ tableView:UITableView) {
         form?._reloadData = {[weak tableView, weak self] in
             tableView?.reloadData()
@@ -44,7 +44,7 @@ extension CD_FormTableViewDelegateDataSource {
     }
 }
 
-extension CD_FormTableViewDelegateDataSource: UITableViewDelegate, UITableViewDataSource  {
+extension FormTableViewDelegateDataSource: UITableViewDelegate, UITableViewDataSource  {
     open func numberOfSections(in tableView: UITableView) -> Int {
         return form?._forms.count ?? 0
     }
@@ -124,10 +124,10 @@ extension CD_FormTableViewDelegateDataSource: UITableViewDelegate, UITableViewDa
 
 
 //MARK:--- CollectionView DelegateDataSource ----------
-open class CD_FormCollectionViewDelegateDataSource: CD_FormDelegateDataSource {
+open class FormCollectionViewDelegateDataSource: FormDelegateDataSource {
     
 }
-extension CD_FormCollectionViewDelegateDataSource {
+extension FormCollectionViewDelegateDataSource {
     @objc open func makeReloadData(_ collectionView:UICollectionView) {
         form?._reloadData = {[weak collectionView, weak self] in
             collectionView?.reloadData()
@@ -143,7 +143,7 @@ extension CD_FormCollectionViewDelegateDataSource {
     }
 }
 
-extension CD_FormCollectionViewDelegateDataSource: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+extension FormCollectionViewDelegateDataSource: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     open func numberOfSections(in collectionView: UICollectionView) -> Int {
         return form?._forms.count ?? 0
     }
@@ -158,7 +158,7 @@ extension CD_FormCollectionViewDelegateDataSource: UICollectionViewDelegate, UIC
     
     open func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let row = form?._forms[indexPath.section][indexPath.row] else {
-            return collectionView.cd.cell(CD_CollectionViewCellNone.id, indexPath)
+            return collectionView.cd.cell(RowCollectionViewCellNone.id, indexPath)
         }
         let cell = collectionView.cd.cell(row.cellId, indexPath)
         row.bind(cell)
@@ -222,14 +222,14 @@ extension CD_FormCollectionViewDelegateDataSource: UICollectionViewDelegate, UIC
         switch kind {
         case CaamDau<UICollectionView>.Kind.tHeader.stringValue:
             guard let count = form?._formHeaders.count, count > indexPath.section, let row = form?._formHeaders[indexPath.section] else {
-                return collectionView.cd.view(CD_CollectionReusableViewNone.id, kind, indexPath)
+                return collectionView.cd.view(RowCollectionReusableViewNone.id, kind, indexPath)
             }
             let v = collectionView.cd.view(row.cellId, kind, indexPath)
             row.bind(v)
             return v
         default:
             guard let count = form?._formFooters.count, count > indexPath.section, let row = form?._formFooters[indexPath.section] else {
-                return collectionView.cd.view(CD_CollectionReusableViewNone.id, kind, indexPath)
+                return collectionView.cd.view(RowCollectionReusableViewNone.id, kind, indexPath)
             }
             let v = collectionView.cd.view(row.cellId, kind, indexPath)
             row.bind(v)

@@ -1,7 +1,7 @@
 //Created  on 2018/12/6  by LCD :https://github.com/liucaide .
 
 /***** 模块文档 *****
- * CD_Row UI 排版组件
+ * Row UI 排版组件
  */
 
 
@@ -15,19 +15,19 @@ import Foundation
 
 //MARK:-------------------- 新的 表单协议 --------------------
 
-public typealias CD_RowDidSelectBlock = () -> Void
-public typealias CD_RowCallBack = (Any?) -> Void
-public typealias CD_RowCompletionHandle = (Any?) -> (Any?)
+public typealias RowDidSelectBlock = () -> Void
+public typealias RowCallBack = (Any?) -> Void
+public typealias RowCompletionHandle = (Any?) -> (Any?)
 
 //MARK:--- UI 数据源和配置协议 ----------
-public typealias CD_UIDataSourceConfigModel = CD_UIDataSource & CD_UIConfigModel
+public typealias UIDataSourceConfigModel = UIDataSource & UIConfigModel
 //MARK:--- UI 数据源协议， ----------
-public protocol CD_UIDataSource {
+public protocol UIDataSource {
     associatedtype DataSource
     var dataSource:DataSource? { set get }
     func row_update(dataSource data: DataSource)
 }
-extension CD_UIDataSource {
+extension UIDataSource {
     /// 部分地方是不需要用到的，需要使用到的地方重写即可
     public var dataSource: DataSource? {
         get { return nil }
@@ -36,12 +36,12 @@ extension CD_UIDataSource {
     func row_update(dataSource data: DataSource) {}
 }
 //MARK:--- UI 配置协议， ----------
-public protocol CD_UIConfigModel {
+public protocol UIConfigModel {
     associatedtype ConfigModel
     var config:ConfigModel? { set get }
     func row_update(config data: ConfigModel)
 }
-extension CD_UIConfigModel {
+extension UIConfigModel {
     /// 部分地方是不需要用到的，需要使用到的地方重写即可
     public var config: ConfigModel? {
         get { return nil }
@@ -54,7 +54,7 @@ extension CD_UIConfigModel {
 
 
 //MARK:--- UI 协议 ----------
-public protocol CD_UIProtocol {
+public protocol UIProtocol {
     var dataSource:Any? { set get }
     var config:Any? { set get }
     var bundleFrom:String? { get }
@@ -67,12 +67,12 @@ public protocol CD_UIProtocol {
     var size:CGSize { set get }
     var insets:UIEdgeInsets { set get }
     var insetsTitle:UIEdgeInsets { set get }
-    var callBack:CD_RowCallBack?{ set get }
-    var tapBlock:CD_RowDidSelectBlock?{ set get }
+    var callBack:RowCallBack?{ set get }
+    var tapBlock:RowDidSelectBlock?{ set get }
     func bind(_ obj: AnyObject)
 }
 
-extension CD_UIProtocol {
+extension UIProtocol {
     //public var dataSource: Any? { set{} get{ return nil} }
     //public var config: Any? { set{} get{ return nil} }
     public var bundleFrom: String? { return nil }
@@ -101,8 +101,8 @@ extension CD_UIProtocol {
     public var insets:UIEdgeInsets{ set{} get{ return .zero }}
     public var insetsTitle:UIEdgeInsets{ set{} get{ return .zero }}
     
-    public var callBack:CD_RowCallBack?{ set{} get{ return nil} }
-    public var tapBlock:CD_RowDidSelectBlock?{ set{} get{ return nil} }
+    public var callBack:RowCallBack?{ set{} get{ return nil} }
+    public var tapBlock:RowDidSelectBlock?{ set{} get{ return nil} }
     
     public func bind(_ obj: AnyObject) {
         
@@ -110,24 +110,24 @@ extension CD_UIProtocol {
 }
 
 //MARK:--- UI 控制器 ViewControllers 列表协议， ----------
-public protocol CD_RowVCProtocol: CD_UIProtocol {
+public protocol RowVCProtocol: UIProtocol {
     var vc:UIViewController { get }
     var view:UIView { get }
 }
-extension CD_RowVCProtocol {
+extension RowVCProtocol {
     public var view:UIView { get{ return vc.view} }
     public var dataSource: Any? { set{} get{ return nil} }
     public var config: Any? { set{} get{ return nil} }
 }
 
-public protocol CD_UIViewControllerProtocol: CD_UIDataSourceConfigModel {
+public protocol UIViewControllerProtocol: UIDataSourceConfigModel {
     /// UIViewController 使用此方法初始化
-    static func row_init(withDataSource dataSource:DataSource?, config:ConfigModel?, callBack:CD_RowCallBack?, tapBlock:CD_RowDidSelectBlock?) -> UIViewController
+    static func row_init(withDataSource dataSource:DataSource?, config:ConfigModel?, callBack:RowCallBack?, tapBlock:RowDidSelectBlock?) -> UIViewController
     
     
 }
-extension CD_UIViewControllerProtocol {
-    //    public static func row_init(withDataSource dataSource:DataSource? = nil, config:ConfigModel? = nil, callBack:CD_RowCallBack? = nil, tapBlock:CD_RowDidSelectBlock? = nil) -> UIViewController {
+extension UIViewControllerProtocol {
+    //    public static func row_init(withDataSource dataSource:DataSource? = nil, config:ConfigModel? = nil, callBack:RowCallBack? = nil, tapBlock:RowDidSelectBlock? = nil) -> UIViewController {
     //        return UIViewController()
     //    }
     public func row_update(config data: ConfigModel) {
@@ -139,11 +139,11 @@ extension CD_UIViewControllerProtocol {
 }
 
 
-public protocol CD_RowViewProtocol: CD_UIProtocol {
+public protocol RowViewProtocol: UIProtocol {
     var view:UIView { get }
     func row_show(withSuperView vv:UIView, callBack:((UIView)->Void)?)
 }
-extension CD_RowViewProtocol {
+extension RowViewProtocol {
     public var dataSource: Any? { set{} get{ return nil} }
     public var config: Any? { set{} get{ return nil} }
     public func row_show(withSuperView vv:UIView, callBack:((UIView)->Void)? = nil) {
@@ -153,14 +153,14 @@ extension CD_RowViewProtocol {
 }
 
 
-public protocol CD_UIViewProtocol: CD_UIDataSourceConfigModel {
+public protocol UIViewProtocol: UIDataSourceConfigModel {
     /// UIView 使用此方法初始化
-    static func row_init(withDataSource dataSource:DataSource?, config:ConfigModel?, callBack:CD_RowCallBack?, tapBlock:CD_RowDidSelectBlock?) -> UIView
+    static func row_init(withDataSource dataSource:DataSource?, config:ConfigModel?, callBack:RowCallBack?, tapBlock:RowDidSelectBlock?) -> UIView
     
     
 }
-extension CD_UIViewProtocol {
-    //    public static func row_init(withDataSource dataSource:DataSource? = nil, config:ConfigModel? = nil, callBack:CD_RowCallBack? = nil, tapBlock:CD_RowDidSelectBlock? = nil) -> UIView {
+extension UIViewProtocol {
+    //    public static func row_init(withDataSource dataSource:DataSource? = nil, config:ConfigModel? = nil, callBack:RowCallBack? = nil, tapBlock:RowDidSelectBlock? = nil) -> UIView {
     //        return UIView()
     //    }
     public func row_update(config data: ConfigModel) {
@@ -175,7 +175,7 @@ extension CD_UIViewProtocol {
 
 
 //MARK:--- UI 控制器 ViewControllers 协议关联模型 ----------
-public struct CD_RowVC<T:CD_UIViewControllerProtocol>:CD_RowVCProtocol where T:UIViewController {
+public struct RowVC<T:UIViewControllerProtocol>:RowVCProtocol where T:UIViewController {
     public var vc:UIViewController
     public var _dataSource:T.DataSource?
     public var _config:T.ConfigModel?
@@ -185,8 +185,8 @@ public struct CD_RowVC<T:CD_UIViewControllerProtocol>:CD_RowVCProtocol where T:U
                 config:T.ConfigModel? = nil,
                 frame:CGRect = .zero,
                 autoLayout:Bool = true,
-                callBack:CD_RowCallBack? = nil,
-                tapBlock:CD_RowDidSelectBlock? = nil) {
+                callBack:RowCallBack? = nil,
+                tapBlock:RowDidSelectBlock? = nil) {
         self.vc = T.row_init(withDataSource: dataSource, config: config, callBack:callBack, tapBlock:tapBlock)
         self._dataSource = dataSource
         self._config = config
@@ -225,7 +225,7 @@ public struct CD_RowVC<T:CD_UIViewControllerProtocol>:CD_RowVCProtocol where T:U
 
 
 //MARK:--- UI View 协议关联模型 ----------
-public struct CD_RowView<T:CD_UIViewProtocol>: CD_RowViewProtocol where T:UIView {
+public struct RowView<T:UIViewProtocol>: RowViewProtocol where T:UIView {
     public var view:UIView
     public var _dataSource:T.DataSource?
     public var _config:T.ConfigModel?
@@ -235,8 +235,8 @@ public struct CD_RowView<T:CD_UIViewProtocol>: CD_RowViewProtocol where T:UIView
                 config:T.ConfigModel? = nil,
                 frame:CGRect = .zero,
                 autoLayout:Bool = true,
-                callBack:CD_RowCallBack? = nil,
-                tapBlock:CD_RowDidSelectBlock? = nil) {
+                callBack:RowCallBack? = nil,
+                tapBlock:RowDidSelectBlock? = nil) {
         self.view = T.row_init(withDataSource: dataSource, config: config, callBack:callBack, tapBlock:tapBlock)
         
         self._dataSource = dataSource
@@ -272,8 +272,8 @@ public struct CD_RowView<T:CD_UIViewProtocol>: CD_RowViewProtocol where T:UIView
         }
     }
 }
-/// CD_RowView 引用类型  一般用上面的 struct
-public class CD_RowViewClass<T:CD_UIViewProtocol>: CD_RowViewProtocol where T:UIView {
+/// RowView 引用类型  一般用上面的 struct
+public class RowViewClass<T:UIViewProtocol>: RowViewProtocol where T:UIView {
     public var view:UIView
     public var _dataSource:T.DataSource?
     public var _config:T.ConfigModel?
@@ -283,8 +283,8 @@ public class CD_RowViewClass<T:CD_UIViewProtocol>: CD_RowViewProtocol where T:UI
                 config:T.ConfigModel? = nil,
                 frame:CGRect = .zero,
                 autoLayout:Bool = true,
-                callBack:CD_RowCallBack? = nil,
-                tapBlock:CD_RowDidSelectBlock? = nil) {
+                callBack:RowCallBack? = nil,
+                tapBlock:RowDidSelectBlock? = nil) {
         self.view = T.row_init(withDataSource: dataSource, config: config, callBack:callBack, tapBlock:tapBlock)
         
         self._dataSource = dataSource
@@ -322,21 +322,21 @@ public class CD_RowViewClass<T:CD_UIViewProtocol>: CD_RowViewProtocol where T:UI
 
 
 //MARK:--- TableViewCell CollectionViewCell 协议 ----------
-public protocol CD_CellProtocol:CD_UIProtocol {
+public protocol CellProtocol:UIProtocol {
     var cellId: String { get }
     var cellClass:AnyClass { get }
 }
 //MARK:---  数据源更新协议 ---
-public protocol CD_RowCellUpdateProtocol:CD_UIDataSourceConfigModel {
-    func row_update(callBack block:CD_RowCallBack?)
+public protocol RowCellUpdateProtocol:UIDataSourceConfigModel {
+    func row_update(callBack block:RowCallBack?)
 }
-extension CD_RowCellUpdateProtocol {
+extension RowCellUpdateProtocol {
     public func row_update(config data: ConfigModel) {}
     public func row_update(dataSource data: DataSource) {}
-    public func row_update(callBack block:CD_RowCallBack?) {}
+    public func row_update(callBack block:RowCallBack?) {}
 }
 
-public struct CD_RowCell<T:CD_RowCellUpdateProtocol>:CD_CellProtocol where T: UIView {
+public struct RowCell<T:RowCellUpdateProtocol>:CellProtocol where T: UIView {
     public var cellId: String
     public var cellClass:AnyClass
     public var _dataSource:T.DataSource?
@@ -345,8 +345,8 @@ public struct CD_RowCell<T:CD_RowCellUpdateProtocol>:CD_CellProtocol where T: UI
     public var frame:CGRect
     public var insets:UIEdgeInsets
     public var insetsTitle:UIEdgeInsets
-    public var callBack:CD_RowCallBack?
-    public var _didSelect:CD_RowDidSelectBlock?
+    public var callBack:RowCallBack?
+    public var _didSelect:RowDidSelectBlock?
     /*
      data  ：View Data 数据源
      id    ：View Id 标识 输入空则默认以类名 viewClass 为标识
@@ -366,8 +366,8 @@ public struct CD_RowCell<T:CD_RowCellUpdateProtocol>:CD_CellProtocol where T: UI
                 insets:UIEdgeInsets = .zero,
                 insetsTitle:UIEdgeInsets = .zero,
                 bundleFrom:String = "",
-                callBack:CD_RowCallBack? = nil,
-                didSelect:CD_RowDidSelectBlock? = nil) {
+                callBack:RowCallBack? = nil,
+                didSelect:RowDidSelectBlock? = nil) {
         self._dataSource = data
         self._config = config
         self.cellClass = T.self
@@ -409,14 +409,14 @@ public struct CD_RowCell<T:CD_RowCellUpdateProtocol>:CD_CellProtocol where T: UI
         }
     }
 }
-extension CD_RowCell {
-    public var tapBlock: CD_RowDidSelectBlock? {
+extension RowCell {
+    public var tapBlock: RowDidSelectBlock? {
         get { return _didSelect}
         set { _didSelect = newValue}
     }
 }
-/// CD_RowCell 引用类型  一般用上面的 struct
-public class CD_RowCellClass<T:CD_RowCellUpdateProtocol>:CD_CellProtocol where T: UIView {
+/// RowCell 引用类型  一般用上面的 struct
+public class RowCellClass<T:RowCellUpdateProtocol>:CellProtocol where T: UIView {
     public var cellId: String
     public var cellClass:AnyClass
     public var _dataSource:T.DataSource?
@@ -425,8 +425,8 @@ public class CD_RowCellClass<T:CD_RowCellUpdateProtocol>:CD_CellProtocol where T
     public var frame:CGRect
     public var insets:UIEdgeInsets
     public var insetsTitle:UIEdgeInsets
-    public var callBack:CD_RowCallBack?
-    public var _didSelect:CD_RowDidSelectBlock?
+    public var callBack:RowCallBack?
+    public var _didSelect:RowDidSelectBlock?
     /*
      data  ：View Data 数据源
      id    ：View Id 标识 输入空则默认以类名 viewClass 为标识
@@ -446,8 +446,8 @@ public class CD_RowCellClass<T:CD_RowCellUpdateProtocol>:CD_CellProtocol where T
                 insets:UIEdgeInsets = .zero,
                 insetsTitle:UIEdgeInsets = .zero,
                 bundleFrom:String = "",
-                callBack:CD_RowCallBack? = nil,
-                didSelect:CD_RowDidSelectBlock? = nil) {
+                callBack:RowCallBack? = nil,
+                didSelect:RowDidSelectBlock? = nil) {
         self._dataSource = data
         self._config = config
         self.cellClass = T.self
@@ -489,8 +489,8 @@ public class CD_RowCellClass<T:CD_RowCellUpdateProtocol>:CD_CellProtocol where T
         }
     }
 }
-extension CD_RowCellClass {
-    public var tapBlock: CD_RowDidSelectBlock? {
+extension RowCellClass {
+    public var tapBlock: RowDidSelectBlock? {
         get { return _didSelect}
         set { _didSelect = newValue}
     }
@@ -508,7 +508,7 @@ extension CD_RowCellClass {
 //MARK:---  单元格配置协议 ---
 /// 旧的协议，弃用
 @available(*, deprecated, message: "旧的协议，弃用")
-public protocol CD_RowProtocol {
+public protocol RowProtocol {
     var tag:Int { get }
     var viewId: String { get }
     var viewClass:AnyClass { get }
@@ -522,36 +522,36 @@ public protocol CD_RowProtocol {
     var size:CGSize { set get }
     var insets:UIEdgeInsets { set get }
     var insetsTitle:UIEdgeInsets { set get }
-    var callBack:CD_RowCallBack?{ set get }
-    var didSelect:CD_RowDidSelectBlock?{ set get }
+    var callBack:RowCallBack?{ set get }
+    var didSelect:RowDidSelectBlock?{ set get }
     func bind(_ view: AnyObject)
 }
 
 //MARK:---  数据源更新协议 ---
 /// 旧的协议，弃用
 @available(*, deprecated, message: "旧的协议，弃用")
-public protocol CD_RowUpdateProtocol {
+public protocol RowUpdateProtocol {
     /// 数据源 关联类型
     associatedtype DataSource
-    func row_update(_ data: DataSource, id:String, tag:Int, frame:CGRect, callBack:CD_RowCallBack?)
+    func row_update(_ data: DataSource, id:String, tag:Int, frame:CGRect, callBack:RowCallBack?)
 }
-public extension CD_RowUpdateProtocol{
-    func row_update(_ data: DataSource, id:String , tag:Int, frame:CGRect, callBack:CD_RowCallBack?) {}
+public extension RowUpdateProtocol{
+    func row_update(_ data: DataSource, id:String , tag:Int, frame:CGRect, callBack:RowCallBack?) {}
 }
 
 
 //MARK:---  建设单元格模型 ---
 /// 旧的协议，弃用
 @available(*, deprecated, message: "旧的协议，弃用")
-public struct CD_Row<T> where T: UIView, T: CD_RowUpdateProtocol {
+public struct Row<T> where T: UIView, T: RowUpdateProtocol {
     public var data: T.DataSource
     public let id: String
     public var tag:Int
     public var frame: CGRect
     public let viewClass:AnyClass = T.self
     public let bundleFrom:String
-    public var callBack:CD_RowCallBack? = nil
-    public var didSelect:CD_RowDidSelectBlock? = nil
+    public var callBack:RowCallBack? = nil
+    public var didSelect:RowDidSelectBlock? = nil
     public var insets:UIEdgeInsets
     public var insetsTitle:UIEdgeInsets
     
@@ -574,8 +574,8 @@ public struct CD_Row<T> where T: UIView, T: CD_RowUpdateProtocol {
                 insets:UIEdgeInsets = .zero,
                 insetsTitle:UIEdgeInsets = .zero,
                 bundleFrom:String = "",
-                callBack:CD_RowCallBack? = nil,
-                didSelect:CD_RowDidSelectBlock? = nil) {
+                callBack:RowCallBack? = nil,
+                didSelect:RowDidSelectBlock? = nil) {
         self.data = data
         self.id = id
         self.frame = frame
@@ -588,7 +588,7 @@ public struct CD_Row<T> where T: UIView, T: CD_RowUpdateProtocol {
     }
 }
 
-extension CD_Row:CD_RowProtocol {
+extension Row:RowProtocol {
     // 单元格模型绑定单元格实例
     public func bind(_ view: AnyObject) {
         if let v = view as? T {
@@ -598,7 +598,7 @@ extension CD_Row:CD_RowProtocol {
 }
 
 //MARK:--- 附加 ---
-extension CD_Row {
+extension Row {
     public var viewId:String {
         get{
             return id=="" ? String(describing: viewClass) : id
@@ -631,18 +631,18 @@ extension CD_Row {
 }
 
 
-//MARK:--- CD_RowClass 对象 ----------
+//MARK:--- RowClass 对象 ----------
 /// 旧的协议，弃用
 @available(*, deprecated, message: "旧的协议，弃用")
-public class CD_RowClass<T> where T: UIView, T: CD_RowUpdateProtocol {
+public class RowClass<T> where T: UIView, T: RowUpdateProtocol {
     public var data: T.DataSource
     public let id: String
     public var tag:Int
     public var frame: CGRect
     public let viewClass:AnyClass = T.self
     public let bundleFrom:String
-    public var callBack:CD_RowCallBack? = nil
-    public var didSelect:CD_RowDidSelectBlock? = nil
+    public var callBack:RowCallBack? = nil
+    public var didSelect:RowDidSelectBlock? = nil
     public var insets:UIEdgeInsets
     public var insetsTitle:UIEdgeInsets
     
@@ -665,8 +665,8 @@ public class CD_RowClass<T> where T: UIView, T: CD_RowUpdateProtocol {
                 insets:UIEdgeInsets = .zero,
                 insetsTitle:UIEdgeInsets = .zero,
                 bundleFrom:String = "",
-                callBack:CD_RowCallBack? = nil,
-                didSelect:CD_RowDidSelectBlock? = nil) {
+                callBack:RowCallBack? = nil,
+                didSelect:RowDidSelectBlock? = nil) {
         self.data = data
         self.id = id
         self.frame = frame
@@ -678,17 +678,17 @@ public class CD_RowClass<T> where T: UIView, T: CD_RowUpdateProtocol {
         self.insetsTitle = insetsTitle
     }
 }
-extension CD_RowClass:CD_RowProtocol {
+extension RowClass:RowProtocol {
     // 单元格模型绑定单元格实例
     public func bind(_ view: AnyObject) {
         if let v = view as? T {
-            //if v.conforms(to: CD_RowUpdateProtocol.self)
+            //if v.conforms(to: RowUpdateProtocol.self)
             v.row_update(self.data, id:self.id, tag:self.tag, frame:self.frame, callBack:self.callBack)
         }
     }
 }
 //MARK:--- 附加 ---
-extension CD_RowClass {
+extension RowClass {
     public var viewId:String {
         get{
             return id=="" ? String(describing: viewClass) : id

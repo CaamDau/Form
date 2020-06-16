@@ -1,7 +1,7 @@
 //Created  on 2019/12/19 by  LCD:https://github.com/liucaide .
 
 /***** 模块文档 *****
- * CD_FormViewController 包含两类
+ * FormViewController 包含两类
  * 1、普通MVVM模式
  * 2、MVC模式
  */
@@ -13,7 +13,7 @@ import UIKit
 
 //@IBDesignable
 /// ViewController 组装基类，里面包含一个 StackView
-open class CD_FormViewController: UIViewController {
+open class FormViewController: UIViewController {
     public lazy var stackView: UIStackView = {
         let v = UIStackView()
         v.axis = .vertical
@@ -31,7 +31,7 @@ open class CD_FormViewController: UIViewController {
     }
 }
 
-extension CD_FormViewController {
+extension FormViewController {
     @objc func makeStackView() {
         self.view.addSubview(stackView)
         
@@ -68,17 +68,17 @@ extension CD_FormViewController {
 
 //@IBDesignable
 /// TableViewController 组装基类，Form 协议 下的普通 MVVM 模式
-/// 继承自CD_FormViewController，StackView内包含一个 TableView
-open class CD_FormTableViewController: CD_FormViewController {
+/// 继承自FormViewController，StackView内包含一个 TableView
+open class FormTableViewController: FormViewController {
     open lazy var tableView: UITableView = {
         return UITableView(frame: CGRect.zero, style: style)
     }()
     open var style:UITableView.Style = .grouped
-    /// 数据源遵循 CD_FormProtocol 协议
-    open var _form:CD_FormProtocol?
+    /// 数据源遵循 FormProtocol 协议
+    open var _form:FormProtocol?
     /// tableView Delegate DataSource 代理类
-    open lazy var _delegateData:CD_FormTableViewDelegateDataSource? = {
-        return CD_FormTableViewDelegateDataSource(_form)
+    open lazy var _delegateData:FormTableViewDelegateDataSource? = {
+        return FormTableViewDelegateDataSource(_form)
     }()
     
     open override func viewDidLoad() {
@@ -87,7 +87,7 @@ open class CD_FormTableViewController: CD_FormViewController {
     }
 }
 
-extension CD_FormTableViewController {
+extension FormTableViewController {
     @objc open func makeTableView() {
         stackView.addArrangedSubview(tableView)
         if _form == nil {
@@ -102,8 +102,8 @@ extension CD_FormTableViewController {
 
 //@IBDesignable
 /// CollectionViewController 组装基类，Form 协议 下的普通 MVVM 模式
-/// 继承自CD_FormViewController，StackView内包含一个 CollectionView
-open class CD_FormCollectionViewController: CD_FormViewController {
+/// 继承自FormViewController，StackView内包含一个 CollectionView
+open class FormCollectionViewController: FormViewController {
     
     open lazy var flowLayout: UICollectionViewLayout = {
         return UICollectionViewFlowLayout()
@@ -112,11 +112,11 @@ open class CD_FormCollectionViewController: CD_FormViewController {
     open lazy var collectionView: UICollectionView = {
         return UICollectionView(frame: .zero, collectionViewLayout: flowLayout)
     }()
-    /// 数据源遵循 CD_FormProtocol 协议
-    open var _form:CD_FormProtocol?
+    /// 数据源遵循 FormProtocol 协议
+    open var _form:FormProtocol?
     /// CollectionView Delegate DataSource DelegateFlowLayout  代理类
-    open lazy var _delegateData:CD_FormCollectionViewDelegateDataSource? = {
-        return CD_FormCollectionViewDelegateDataSource(_form)
+    open lazy var _delegateData:FormCollectionViewDelegateDataSource? = {
+        return FormCollectionViewDelegateDataSource(_form)
     }()
     
     open override func viewDidLoad() {
@@ -125,7 +125,7 @@ open class CD_FormCollectionViewController: CD_FormViewController {
     }
 }
 
-extension CD_FormCollectionViewController {
+extension FormCollectionViewController {
     @objc open func makeCollectionView() {
         stackView.addArrangedSubview(collectionView)
         if _form == nil {
@@ -146,18 +146,18 @@ extension CD_FormCollectionViewController {
 /// ViewController 组装基类，普通 MVC 模式
 /// 内含两个排版 Form 数据源，
 /// 已实现基本 TableViewDelegate/DataSource、CollectionViewDelegate/DataSource/DelegateFlowLayout
-/// 继承 CD_FormBaseViewController 的基础上课重写，并可实现剩余协议，获得剩余功能
-extension CD_FormBaseViewController {
+/// 继承 FormBaseViewController 的基础上课重写，并可实现剩余协议，获得剩余功能
+extension FormBaseViewController {
     public struct DataModel {
         /// 单元格数据组配置
-        public var _forms:CD_Forms = []
+        public var _forms:Forms = []
         /// 页首数据组配置
-        public var _formHeaders:CD_Form = []
+        public var _formHeaders:Form = []
         /// 页尾数据组配置
-        public var _formFooters:CD_Form = []
+        public var _formFooters:Form = []
     }
 }
-open class CD_FormBaseViewController: UIViewController {
+open class FormBaseViewController: UIViewController {
     /// TableView 排版组装数据源
     public var tableDatas:DataModel?
     /// CollectionView 排版组装数据源
@@ -170,7 +170,7 @@ open class CD_FormBaseViewController: UIViewController {
     }
 }
 
-extension CD_FormBaseViewController: UITableViewDelegate, UITableViewDataSource  {
+extension FormBaseViewController: UITableViewDelegate, UITableViewDataSource  {
     open func numberOfSections(in tableView: UITableView) -> Int {
         return tableDatas?._forms.count ?? 0
     }
@@ -247,7 +247,7 @@ extension CD_FormBaseViewController: UITableViewDelegate, UITableViewDataSource 
 }
 
 
-extension CD_FormBaseViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+extension FormBaseViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     open func numberOfSections(in collectionView: UICollectionView) -> Int {
         return collectionDatas?._forms.count ?? 0
     }
@@ -262,7 +262,7 @@ extension CD_FormBaseViewController: UICollectionViewDelegate, UICollectionViewD
     
     open func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let row = collectionDatas?._forms[indexPath.section][indexPath.row] else {
-            return collectionView.cd.cell(CD_CollectionViewCellNone.id, indexPath)
+            return collectionView.cd.cell(RowCollectionViewCellNone.id, indexPath)
         }
         let cell = collectionView.cd.cell(row.cellId, indexPath)
         row.bind(cell)
@@ -322,14 +322,14 @@ extension CD_FormBaseViewController: UICollectionViewDelegate, UICollectionViewD
         switch kind {
         case CaamDau<UICollectionView>.Kind.tHeader.stringValue:
             guard let count = collectionDatas?._formHeaders.count, count > indexPath.section, let row = collectionDatas?._formHeaders[indexPath.section] else {
-                return collectionView.cd.view(CD_CollectionReusableViewNone.id, kind, indexPath)
+                return collectionView.cd.view(RowCollectionReusableViewNone.id, kind, indexPath)
             }
             let v = collectionView.cd.view(row.cellId, kind, indexPath)
             row.bind(v)
             return v
         default:
             guard let count = collectionDatas?._formFooters.count, count > indexPath.section, let row = collectionDatas?._formFooters[indexPath.section] else {
-                return collectionView.cd.view(CD_CollectionReusableViewNone.id, kind, indexPath)
+                return collectionView.cd.view(RowCollectionReusableViewNone.id, kind, indexPath)
             }
             let v = collectionView.cd.view(row.cellId, kind, indexPath)
             row.bind(v)

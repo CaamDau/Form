@@ -24,21 +24,21 @@ class ViewController: UIViewController {
 
 
 class VM_ViewController {
-    var forms: [[CD_CellProtocol]] = []
+    var forms: [[CellProtocol]] = []
     
 }
 
 extension VM_ViewController {
     func makeForm() {
         do{
-            let row = CD_RowCell<CD_TableViewCellBase>(frame: CGRect(h:80))
+            let row = RowCell<RowTableViewCellBase>(frame: CGRect(h:80))
         }
     }
 }
 
 
-extension VM_ViewController: CD_FormProtocol {
-    var _forms: [[CD_CellProtocol]] {
+extension VM_ViewController: FormProtocol {
+    var _forms: [[CellProtocol]] {
         return forms
     }
 }

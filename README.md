@@ -8,7 +8,7 @@
 [![Platform](https://img.shields.io/cocoapods/p/CaamDauForm.svg?style=flat)](https://cocoapods.org/pods/CaamDauForm)
 [![](https://img.shields.io/badge/Swift-4.0~5.0-orange.svg?style=flat)](https://cocoapods.org/pods/CaamDauForm)
 
-# CD_Form  （[OC版本在这里](https://github.com/liucaide/CaamDauObjC)）
+# Form  （[OC版本在这里](https://github.com/liucaide/CaamDauObjC)）
 
 ```ruby
 pod 'CaamDau'
@@ -28,36 +28,36 @@ pod 'CaamDau/Form'
 
 ### 如何做到不需要再维护Delegate和DataSource协议的代码
 - 首先要明白 Delegate/DataSource 中 section row height didselect 的多点关系是有迹可循的，是可以模型化的，因此可以转化为单个模型单元，即可将多点关系转化为了单点关系
-- 了解 CD_CellProtocol 协议
-- 了解为 TableView/CollectionView 而定制的CD_RowCell/CD_RowCellClass
-- 了解 CD_FormDelegateDataSource
+- 了解 CellProtocol 协议
+- 了解为 TableView/CollectionView 而定制的RowCell/RowCellClass
+- 了解 FormDelegateDataSource
 
 
 ### 如何构建一个单元格模型Row
 ```
-let row = CD_RowCell<Cell_***>()
+let row = RowCell<Cell_***>()
 ```
 示例：
 ```
         do{// 倒计时 - 旧的协议
-            let row = CD_Row<Cell_MineCountDown>(data: model, frame: CGRect(h:100))
+            let row = Row<Cell_MineCountDown>(data: model, frame: CGRect(h:100))
             self.forms[Section.countdown.rawValue].append(row)
         }
         
         do{// 倒计时 - 新的协议
-            let row = CD_RowCell<Cell_MineCountDown>(data: model, frame: CGRect(h:100))
+            let row = RowCell<Cell_MineCountDown>(data: model, frame: CGRect(h:100))
             self.forms[Section.countdown.rawValue].append(row)
         }
         
         do{// 倒计时 点击回调didSelect 与内部事件回调 callBack
-            let row = CD_RowCell<Cell_MineCountDown>(data: model, frame: CGRect(h:100), callBack:{_ in}, didSelect:{})
+            let row = RowCell<Cell_MineCountDown>(data: model, frame: CGRect(h:100), callBack:{_ in}, didSelect:{})
             self.forms[Section.countdown.rawValue].append(row)
         }
 ```
 
 ### 如何应对混合排版
 - 当混合排版的时候 section row height didselect 等多点关系简直就是灾难
-- 而使用CD_Row 就是如此简单
+- 而使用Row 就是如此简单
 
 示例：
 ```ruby
@@ -74,28 +74,28 @@ extension VM_MineTableView{
             }
             
             do{//分割线
-                let row = CD_Row<Cell_MineLine>(data: .bgF0, frame: CGRect(h:10))
+                let row = Row<Cell_MineLine>(data: .bgF0, frame: CGRect(h:10))
                 self.forms[Section.countdown.rawValue].append(row)
             }
         }
     }
     func makeFormCountDown(_ model:VM_MineTableView.Model) {
         do{// 倒计时
-            let row = CD_Row<Cell_MineCountDown>(data: model, frame: CGRect(h:100))
+            let row = Row<Cell_MineCountDown>(data: model, frame: CGRect(h:100))
             self.forms[Section.countdown.rawValue].append(row)
         }
         do{//分割线
-            let row = CD_Row<Cell_MineLine>(data: .bgF0, frame: CGRect(h:0.5))
+            let row = Row<Cell_MineLine>(data: .bgF0, frame: CGRect(h:0.5))
             self.forms[Section.countdown.rawValue].append(row)
         }
     }
 }
 ```
 ### 如何扩展实现自定义功能
-- CD_Form *** DelegateDataSource 内已实现的 Delegate/DataSource 是普遍通用代码，当无法满足需求时，可继承 CD_Form *** DelegateDataSource 实现
+- Form *** DelegateDataSource 内已实现的 Delegate/DataSource 是普遍通用代码，当无法满足需求时，可继承 Form *** DelegateDataSource 实现
 ```
-/// 继承 CD_Form***DelegateDataSource 自行实现 左滑删除功能
-class CustomListTableViewDelegateDataSource: CD_FormTableViewDelegateDataSource {
+/// 继承 Form***DelegateDataSource 自行实现 左滑删除功能
+class CustomListTableViewDelegateDataSource: FormTableViewDelegateDataSource {
     
     func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
         // 特定状态 特定Cell 具备左滑删除
@@ -148,24 +148,24 @@ class CustomListTableViewDelegateDataSource: CD_FormTableViewDelegateDataSource 
     // 自动忽略几十行代码
 ```
 ### 现在有序的代码
-- 现在代码可以是这样的，不需要维护Delegate/DataSource代理，将任务交给CD_Form***DelegateDataSource（可继承实现未完成的）
+- 现在代码可以是这样的，不需要维护Delegate/DataSource代理，将任务交给Form***DelegateDataSource（可继承实现未完成的）
 ```
-    /// Cell数据源遵循 CD_FormProtocol 协议
-    var form:CD_FormProtocol?
+    /// Cell数据源遵循 FormProtocol 协议
+    var form:FormProtocol?
     /// tableView Delegate DataSource 代理类
-    lazy var delegateData:CD_FormTableViewDelegateDataSource? = {
-        return CD_FormTableViewDelegateDataSource(form)
+    lazy var delegateData:FormTableViewDelegateDataSource? = {
+        return FormTableViewDelegateDataSource(form)
     }()
     tableView.delegate = delegateData
     tableView.dataSource = delegateData
     delegateData?.makeReloadData(tableView)
 ```
-- 此时 一个单元格信息 全部包含在 CD_RowCell 模型中，无需理会 Delegate DataSource 中的代码
+- 此时 一个单元格信息 全部包含在 RowCell 模型中，无需理会 Delegate DataSource 中的代码
 ```
     // 设置 活动分组 排版
     func makeActivityForm() {
         do{
-            let row = CD_RowCell<Cell_***>.init(data: "数据" config:"配置", frame: CGRect(h:45), callBack: { _ in
+            let row = RowCell<Cell_***>.init(data: "数据" config:"配置", frame: CGRect(h:45), callBack: { _ in
                 /// Cell 内事件回调处理
             }) {
                 /// Cell 点击事件处理
@@ -173,7 +173,7 @@ class CustomListTableViewDelegateDataSource: CD_FormTableViewDelegateDataSource 
             forms[Section.activity.rawValue] += [row]
         }
         do{
-            let row = CD_RowCell<Cell_***>.init(data: "数据", frame: CGRect(h:45))
+            let row = RowCell<Cell_***>.init(data: "数据", frame: CGRect(h:45))
             forms[Section.activity.rawValue] += [row]
         }
         reloadData?()

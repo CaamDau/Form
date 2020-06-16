@@ -1,9 +1,9 @@
 //Created  on 2018/12/13  by LCD :https://github.com/liucaide .
 
 import Foundation
-
-public class CD_TableViewCellBase: UITableViewCell{
-    public static let id:String = "CD_CollectionViewCellNone"
+import UIKit
+public class RowTableViewCellBase: UITableViewCell{
+    public static let id:String = "RowTableViewCellBase"
     public static let bundle:String = "CaamDau"
     public struct Model {
         let icon:UIImage?
@@ -47,9 +47,9 @@ public class CD_TableViewCellBase: UITableViewCell{
     }
 }
 
-extension CD_TableViewCellBase: CD_RowCellUpdateProtocol {
+extension RowTableViewCellBase: RowCellUpdateProtocol {
     public typealias ConfigModel = Any
-    public typealias DataSource = CD_TableViewCellBase.Model
+    public typealias DataSource = RowTableViewCellBase.Model
     open func row_update(config data: ConfigModel) {
         
     }
@@ -70,7 +70,7 @@ extension CD_TableViewCellBase: CD_RowCellUpdateProtocol {
             self.accessoryView = vv
         }
     }
-    open func row_update(callBack block: CD_RowCallBack?) {
+    open func row_update(callBack block: RowCallBack?) {
         
     }
 }
@@ -78,31 +78,31 @@ extension CD_TableViewCellBase: CD_RowCellUpdateProtocol {
 
 
 
-//MARK:--- 默认的空 UICollectionViewCell CD_CollectionReusableView ----------
-public class CD_CollectionViewCellNone: UICollectionViewCell{
-    public static let id:String = "CD_CollectionViewCellNone"
+//MARK:--- 默认的空 UICollectionViewCell CollectionReusableView ----------
+public class RowCollectionViewCellNone: UICollectionViewCell{
+    public static let id:String = "RowCollectionViewCellNone"
     public static let bundle:String = "CaamDau"
 }
 
-extension CD_CollectionViewCellNone: CD_RowCellUpdateProtocol {
+extension RowCollectionViewCellNone: RowCellUpdateProtocol {
     public typealias ConfigModel = Any
     public typealias DataSource = Any
     open func row_update(config data: ConfigModel) {
     }
     open func row_update(dataSource data: DataSource) {
     }
-    open func row_update(callBack block: CD_RowCallBack?) {
+    open func row_update(callBack block: RowCallBack?) {
     }
 }
 
 
 
-public class CD_CollectionReusableViewNone: UICollectionReusableView {
-    public static let id:String = "CD_CollectionReusableViewNone"
+public class RowCollectionReusableViewNone: UICollectionReusableView {
+    public static let id:String = "RowCollectionReusableViewNone"
     public static let bundle:String = "CaamDau"
 }
 
-extension CD_CollectionReusableViewNone: CD_RowCellUpdateProtocol {
+extension RowCollectionReusableViewNone: RowCellUpdateProtocol {
     public typealias ConfigModel = Any
     public typealias DataSource = Any
     open func row_update(config data: ConfigModel) {
@@ -111,7 +111,7 @@ extension CD_CollectionReusableViewNone: CD_RowCellUpdateProtocol {
     open func row_update(dataSource data: DataSource) {
         
     }
-    open func row_update(callBack block: CD_RowCallBack?) {
+    open func row_update(callBack block: RowCallBack?) {
         
     }
 }

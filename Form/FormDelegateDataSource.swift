@@ -28,18 +28,14 @@ open class FormTableViewDelegateDataSource: FormDelegateDataSource {
 
 extension FormTableViewDelegateDataSource {
     @objc open func makeReloadData(_ tableView:UITableView) {
-        form?._reloadData = {[weak tableView, weak self] in
+        form?._reloadData = {[weak tableView] in
             tableView?.reloadData()
-            //tableView?.backgroundView = self?.form?._emptyView?(tableView) ?? nil
         }
-        form?._reloadRows = { [weak tableView, weak self] (indexPath, animation) in
+        form?._reloadRows = { [weak tableView] (indexPath, animation) in
             tableView?.reloadRows(at: indexPath, with: animation)
-            //tableView?.backgroundView = self?.form?._emptyView?(tableView) ?? nil
-            
         }
-        form?._reloadSections = { [weak tableView, weak self] (sections, animation) in
+        form?._reloadSections = { [weak tableView] (sections, animation) in
             tableView?.reloadSections(sections, with: animation)
-            //tableView?.backgroundView = self?.form?._emptyView?(tableView) ?? nil
         }
     }
 }

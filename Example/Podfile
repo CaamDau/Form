@@ -7,4 +7,8 @@ target 'Example' do
   pod 'CaamDauCompatible', :path => '../../Compatible'
   pod 'CaamDauValue', :path => '../../Value'
   pod 'CaamDauForm', :path => '../'
+  
+  pod 'RxSwift'
+  pod 'RxCocoa'
+  pod 'RxDataSources'
 end

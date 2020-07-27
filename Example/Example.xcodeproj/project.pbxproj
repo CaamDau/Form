@@ -11,6 +11,9 @@
 		4747CD6324BDB5E5004A1843 /* FormX.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4747CD6224BDB5E5004A1843 /* FormX.swift */; };
 		4747CD6524BDB62E004A1843 /* FormXDelegateDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4747CD6424BDB62E004A1843 /* FormXDelegateDataSource.swift */; };
 		4747CD6724BDB63F004A1843 /* FormXViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4747CD6624BDB63F004A1843 /* FormXViewController.swift */; };
+		4771802224CE6F1300E202E9 /* FormRxDelegateDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4771802124CE6F1300E202E9 /* FormRxDelegateDataSource.swift */; };
+		4771802424CE6F2200E202E9 /* FormRXViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4771802324CE6F2200E202E9 /* FormRXViewController.swift */; };
+		4771802624CEAE3800E202E9 /* RxCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4771802524CEAE3800E202E9 /* RxCollectionViewController.swift */; };
 		47A0C80024B46F1700EC2102 /* Cell_Image.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47A0C7FE24B46F1700EC2102 /* Cell_Image.swift */; };
 		47A0C80124B46F1700EC2102 /* Cell_Image.xib in Resources */ = {isa = PBXBuildFile; fileRef = 47A0C7FF24B46F1700EC2102 /* Cell_Image.xib */; };
 		47A0C80324B4750200EC2102 /* Header_Rx.xib in Resources */ = {isa = PBXBuildFile; fileRef = 47A0C80224B4750200EC2102 /* Header_Rx.xib */; };
@@ -33,6 +36,9 @@
 		4747CD6224BDB5E5004A1843 /* FormX.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormX.swift; sourceTree = "<group>"; };
 		4747CD6424BDB62E004A1843 /* FormXDelegateDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormXDelegateDataSource.swift; sourceTree = "<group>"; };
 		4747CD6624BDB63F004A1843 /* FormXViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormXViewController.swift; sourceTree = "<group>"; };
+		4771802124CE6F1300E202E9 /* FormRxDelegateDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormRxDelegateDataSource.swift; sourceTree = "<group>"; };
+		4771802324CE6F2200E202E9 /* FormRXViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormRXViewController.swift; sourceTree = "<group>"; };
+		4771802524CEAE3800E202E9 /* RxCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RxCollectionViewController.swift; sourceTree = "<group>"; };
 		47A0C7FE24B46F1700EC2102 /* Cell_Image.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cell_Image.swift; sourceTree = "<group>"; };
 		47A0C7FF24B46F1700EC2102 /* Cell_Image.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = Cell_Image.xib; sourceTree = "<group>"; };
 		47A0C80224B4750200EC2102 /* Header_Rx.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = Header_Rx.xib; sourceTree = "<group>"; };
@@ -98,6 +104,8 @@
 			isa = PBXGroup;
 			children = (
 				47CD730D24B550FF006DDC98 /* FormRx.swift */,
+				4771802124CE6F1300E202E9 /* FormRxDelegateDataSource.swift */,
+				4771802324CE6F2200E202E9 /* FormRXViewController.swift */,
 			);
 			path = Rx;
 			sourceTree = "<group>";
@@ -127,6 +135,7 @@
 				47FC34DF2238076F0022174D /* AppDelegate.swift */,
 				47FC34E1223807700022174D /* ViewController.swift */,
 				47BA011A2499FAC8005ED502 /* RxViewController.swift */,
+				4771802524CEAE3800E202E9 /* RxCollectionViewController.swift */,
 				47A0C80224B4750200EC2102 /* Header_Rx.xib */,
 				47A0C7FE24B46F1700EC2102 /* Cell_Image.swift */,
 				47A0C7FF24B46F1700EC2102 /* Cell_Image.xib */,
@@ -274,17 +283,20 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4771802624CEAE3800E202E9 /* RxCollectionViewController.swift in Sources */,
 				47CD730B24B5505A006DDC98 /* Row+UI.swift in Sources */,
 				47CD730E24B550FF006DDC98 /* FormRx.swift in Sources */,
 				4747CD6724BDB63F004A1843 /* FormXViewController.swift in Sources */,
 				4747CD6524BDB62E004A1843 /* FormXDelegateDataSource.swift in Sources */,
 				47CD730C24B5505A006DDC98 /* Row.swift in Sources */,
 				47CD730924B5505A006DDC98 /* FormViewController.swift in Sources */,
+				4771802424CE6F2200E202E9 /* FormRXViewController.swift in Sources */,
 				47FC34E2223807700022174D /* ViewController.swift in Sources */,
 				47CD730824B5505A006DDC98 /* FormDelegateDataSource.swift in Sources */,
 				4747CD6324BDB5E5004A1843 /* FormX.swift in Sources */,
 				47A0C80024B46F1700EC2102 /* Cell_Image.swift in Sources */,
 				47FC34E02238076F0022174D /* AppDelegate.swift in Sources */,
+				4771802224CE6F1300E202E9 /* FormRxDelegateDataSource.swift in Sources */,
 				47CD730A24B5505A006DDC98 /* Form.swift in Sources */,
 				47BA011B2499FAC8005ED502 /* RxViewController.swift in Sources */,
 			);

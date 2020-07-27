@@ -23,7 +23,21 @@ class ViewController: UIViewController {
         
         dea = FormXTableViewDelegateDataSource(nil)
         tableView.cd.delegate(dea).dataSource(dea)
-        dea?.form = vm.fff
+        
+        vm.output = { [weak self]put in
+            switch put {
+            case .reload:
+                self?.dea?.form = self!.vm.fff
+                self?.tableView.reloadData()
+            default:
+                break
+            }
+        }
+        
+        Time.after(3) {
+            self.vm.input(.refresh(true))
+        }
+        
         
         
         //TTS().tts()
@@ -35,11 +49,12 @@ class ViewController: UIViewController {
 class VM_ViewController {
     var fff:[FormX] = []
     init() {
-        makeForm()
+        
     }
+    var output: ((OutputType) -> Void)?
     
-    var forms: [[CellProtocol]] = []
-    var reloadData: (() -> Void)?
+    //var forms: [[CellProtocol]] = []
+    //var reloadData: (() -> Void)?
 }
 
 extension VM_ViewController {
@@ -71,7 +86,7 @@ extension VM_ViewController {
             }
             fff[0] = fff[0].append(rows: rows)
         }
-        
+        output?(.reload)
         /*
         var ff:[CellProtocol] = []
         (0..<100).forEach {
@@ -84,8 +99,36 @@ extension VM_ViewController {
         reloadData?()*/
     }
 }
+extension VM_ViewController {
+    enum InputType {
+        case refresh(Bool)
+    }
+    
+    enum OutputType {
+        case reload
+        case endRefresh
+        case endRefreshNodata
+        case resetNoMoreData
+    }
+}
+
+extension VM_ViewController: FormViewModelProtocol {
+    func input(_ input: InputType) {
+        switch input {
+        case .refresh(_):
+            makeForm()
+        default:
+            break
+        }
+    }
+    
+    typealias Input = InputType
+    
+    typealias Output = OutputType
+}
 
 
+/*
 extension VM_ViewController: FormProtocol {
     var _forms: [[CellProtocol]] {
         return forms
@@ -99,7 +142,7 @@ extension VM_ViewController: FormProtocol {
         }
     }
 }
-
+*/
 
 
 

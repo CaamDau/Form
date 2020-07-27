@@ -8,10 +8,19 @@
 
 /* Begin PBXBuildFile section */
 		269B01BEE2F83BF445F25CF3 /* Pods_Example.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BFAB45DED5B2C2D6CC4D07D2 /* Pods_Example.framework */; };
+		4747CD6324BDB5E5004A1843 /* FormX.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4747CD6224BDB5E5004A1843 /* FormX.swift */; };
+		4747CD6524BDB62E004A1843 /* FormXDelegateDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4747CD6424BDB62E004A1843 /* FormXDelegateDataSource.swift */; };
+		4747CD6724BDB63F004A1843 /* FormXViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4747CD6624BDB63F004A1843 /* FormXViewController.swift */; };
 		47A0C80024B46F1700EC2102 /* Cell_Image.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47A0C7FE24B46F1700EC2102 /* Cell_Image.swift */; };
 		47A0C80124B46F1700EC2102 /* Cell_Image.xib in Resources */ = {isa = PBXBuildFile; fileRef = 47A0C7FF24B46F1700EC2102 /* Cell_Image.xib */; };
 		47A0C80324B4750200EC2102 /* Header_Rx.xib in Resources */ = {isa = PBXBuildFile; fileRef = 47A0C80224B4750200EC2102 /* Header_Rx.xib */; };
 		47BA011B2499FAC8005ED502 /* RxViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47BA011A2499FAC8005ED502 /* RxViewController.swift */; };
+		47CD730824B5505A006DDC98 /* FormDelegateDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47CD730124B5505A006DDC98 /* FormDelegateDataSource.swift */; };
+		47CD730924B5505A006DDC98 /* FormViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47CD730324B5505A006DDC98 /* FormViewController.swift */; };
+		47CD730A24B5505A006DDC98 /* Form.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47CD730424B5505A006DDC98 /* Form.swift */; };
+		47CD730B24B5505A006DDC98 /* Row+UI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47CD730524B5505A006DDC98 /* Row+UI.swift */; };
+		47CD730C24B5505A006DDC98 /* Row.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47CD730624B5505A006DDC98 /* Row.swift */; };
+		47CD730E24B550FF006DDC98 /* FormRx.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47CD730D24B550FF006DDC98 /* FormRx.swift */; };
 		47FC34E02238076F0022174D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47FC34DF2238076F0022174D /* AppDelegate.swift */; };
 		47FC34E2223807700022174D /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47FC34E1223807700022174D /* ViewController.swift */; };
 		47FC34E5223807700022174D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 47FC34E3223807700022174D /* Main.storyboard */; };
@@ -21,10 +30,20 @@
 
 /* Begin PBXFileReference section */
 		11C7E6571DE563F6433941AC /* Pods-Example.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Example.release.xcconfig"; path = "Target Support Files/Pods-Example/Pods-Example.release.xcconfig"; sourceTree = "<group>"; };
+		4747CD6224BDB5E5004A1843 /* FormX.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormX.swift; sourceTree = "<group>"; };
+		4747CD6424BDB62E004A1843 /* FormXDelegateDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormXDelegateDataSource.swift; sourceTree = "<group>"; };
+		4747CD6624BDB63F004A1843 /* FormXViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormXViewController.swift; sourceTree = "<group>"; };
 		47A0C7FE24B46F1700EC2102 /* Cell_Image.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cell_Image.swift; sourceTree = "<group>"; };
 		47A0C7FF24B46F1700EC2102 /* Cell_Image.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = Cell_Image.xib; sourceTree = "<group>"; };
 		47A0C80224B4750200EC2102 /* Header_Rx.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = Header_Rx.xib; sourceTree = "<group>"; };
 		47BA011A2499FAC8005ED502 /* RxViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RxViewController.swift; sourceTree = "<group>"; };
+		47CD730124B5505A006DDC98 /* FormDelegateDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FormDelegateDataSource.swift; sourceTree = "<group>"; };
+		47CD730224B5505A006DDC98 /* CaamDauFormHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CaamDauFormHeader.h; sourceTree = "<group>"; };
+		47CD730324B5505A006DDC98 /* FormViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FormViewController.swift; sourceTree = "<group>"; };
+		47CD730424B5505A006DDC98 /* Form.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Form.swift; sourceTree = "<group>"; };
+		47CD730524B5505A006DDC98 /* Row+UI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Row+UI.swift"; sourceTree = "<group>"; };
+		47CD730624B5505A006DDC98 /* Row.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Row.swift; sourceTree = "<group>"; };
+		47CD730D24B550FF006DDC98 /* FormRx.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormRx.swift; sourceTree = "<group>"; };
 		47EE0CD122BB8C810015DA37 /* Example-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Example-Bridging-Header.h"; sourceTree = "<group>"; };
 		47FC34DC2238076F0022174D /* CaamDau.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CaamDau.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		47FC34DF2238076F0022174D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -49,9 +68,44 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		47CD72FF24B5505A006DDC98 /* Form */ = {
+			isa = PBXGroup;
+			children = (
+				47CD730024B5505A006DDC98 /* Core */,
+				47CD730724B5505A006DDC98 /* Rx */,
+			);
+			name = Form;
+			path = ../Form;
+			sourceTree = "<group>";
+		};
+		47CD730024B5505A006DDC98 /* Core */ = {
+			isa = PBXGroup;
+			children = (
+				4747CD6224BDB5E5004A1843 /* FormX.swift */,
+				4747CD6424BDB62E004A1843 /* FormXDelegateDataSource.swift */,
+				4747CD6624BDB63F004A1843 /* FormXViewController.swift */,
+				47CD730124B5505A006DDC98 /* FormDelegateDataSource.swift */,
+				47CD730224B5505A006DDC98 /* CaamDauFormHeader.h */,
+				47CD730324B5505A006DDC98 /* FormViewController.swift */,
+				47CD730424B5505A006DDC98 /* Form.swift */,
+				47CD730524B5505A006DDC98 /* Row+UI.swift */,
+				47CD730624B5505A006DDC98 /* Row.swift */,
+			);
+			path = Core;
+			sourceTree = "<group>";
+		};
+		47CD730724B5505A006DDC98 /* Rx */ = {
+			isa = PBXGroup;
+			children = (
+				47CD730D24B550FF006DDC98 /* FormRx.swift */,
+			);
+			path = Rx;
+			sourceTree = "<group>";
+		};
 		47FC34D32238076F0022174D = {
 			isa = PBXGroup;
 			children = (
+				47CD72FF24B5505A006DDC98 /* Form */,
 				47FC34DE2238076F0022174D /* Example */,
 				47FC34DD2238076F0022174D /* Products */,
 				9AB58F70F02E88BEFA7107D1 /* Pods */,
@@ -220,9 +274,18 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				47CD730B24B5505A006DDC98 /* Row+UI.swift in Sources */,
+				47CD730E24B550FF006DDC98 /* FormRx.swift in Sources */,
+				4747CD6724BDB63F004A1843 /* FormXViewController.swift in Sources */,
+				4747CD6524BDB62E004A1843 /* FormXDelegateDataSource.swift in Sources */,
+				47CD730C24B5505A006DDC98 /* Row.swift in Sources */,
+				47CD730924B5505A006DDC98 /* FormViewController.swift in Sources */,
 				47FC34E2223807700022174D /* ViewController.swift in Sources */,
+				47CD730824B5505A006DDC98 /* FormDelegateDataSource.swift in Sources */,
+				4747CD6324BDB5E5004A1843 /* FormX.swift in Sources */,
 				47A0C80024B46F1700EC2102 /* Cell_Image.swift in Sources */,
 				47FC34E02238076F0022174D /* AppDelegate.swift in Sources */,
+				47CD730A24B5505A006DDC98 /* Form.swift in Sources */,
 				47BA011B2499FAC8005ED502 /* RxViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -379,6 +442,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				OTHER_SWIFT_FLAGS = "$(inherited) -D COCOAPODS -Xfrontend -enable-dynamic-replacement-chaining";
 				PRODUCT_BUNDLE_IDENTIFIER = com.github.liucaide.CaamDau;
 				PRODUCT_NAME = CaamDau;
 				SWIFT_OBJC_BRIDGING_HEADER = "Example/Example-Bridging-Header.h";
@@ -402,6 +466,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				OTHER_SWIFT_FLAGS = "$(inherited) -D COCOAPODS -Xfrontend -enable-dynamic-replacement-chaining";
 				PRODUCT_BUNDLE_IDENTIFIER = com.github.liucaide.CaamDau;
 				PRODUCT_NAME = CaamDau;
 				SWIFT_OBJC_BRIDGING_HEADER = "Example/Example-Bridging-Header.h";

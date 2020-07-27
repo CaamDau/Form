@@ -13,51 +13,67 @@ import RxCocoa
 import RxSwift
 import RxDataSources
 import CaamDauForm
+
+
+
 class RxViewController: UIViewController {
     
     @IBOutlet weak var tableView: UITableView!
     var vm = VM_RxViewController()
     let disposeBag = DisposeBag()
+    var deleDa:FormTableViewRx?
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let dataSource = RxTableViewSectionedReloadDataSource<FormItem>(
-            configureCell: { (dataSource, tableView, indexPath, item) -> UITableViewCell in
-                let row = item
-                let cell = tableView.cd.cell(row.cellClass, id:row.cellId, bundleFrom:row.bundleFrom ?? "") ?? UITableViewCell()
-                row.bind(cell)
-                return cell
-                
-        })
-        vm.forms
+        
+        deleDa = FormTableViewRx(forms: vm.forms, tableView: tableView)
+        
+        vm.makeForm()
+    }
+}
+
+class FormTableViewRx: NSObject {
+    let dataSource = RxTableViewSectionedReloadDataSource<FormRx>(
+        configureCell: { (dataSource, tableView, indexPath, item) -> UITableViewCell in
+            let row = item
+            let cell = tableView.cd.cell(row.cellClass, id:row.cellId, bundleFrom:row.bundleFrom ?? "") ?? UITableViewCell()
+            row.bind(cell)
+            return cell
+            
+    })
+    let disposeBag = DisposeBag()
+    
+    init(forms:BehaviorRelay<[FormRx]>, tableView:UITableView) {
+        super.init()
+        forms
             .bind(to: tableView.rx.items(dataSource: dataSource))
             .disposed(by: disposeBag)
         
         tableView.rx
-            .modelSelected(FormItem.Item.self)
+            .modelSelected(FormRx.Item.self)
             .subscribe(onNext: { item in
                 item.tapBlock?()
             })
             .disposed(by: disposeBag)
         
         tableView.rx.setDelegate(self).disposed(by: disposeBag)
-        
-        vm.makeForm()
     }
 }
 
-extension RxViewController: UITableViewDelegate {
+extension FormTableViewRx: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return vm.forms.value[section].header?.h ?? 0.001
+        return dataSource[section].header?.h ?? 0.001
     }
     func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
-        return vm.forms.value[section].footer?.h ?? 0.001
+        return dataSource[section].footer?.h ?? 0.001
     }
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return vm.forms.value[indexPath.section].items[indexPath.row].h
+        return dataSource[indexPath.section].items[indexPath.row].h
     }
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        guard let row = vm.forms.value[section].header else {
+        guard let row = dataSource[section].header else {
             return nil
         }
         guard let v = tableView.cd.view(row.cellClass, id:row.cellId, bundleFrom:row.bundleFrom ?? "") else {
@@ -67,7 +83,7 @@ extension RxViewController: UITableViewDelegate {
         return v
     }
     func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
-        guard let row = vm.forms.value[section].footer else {
+        guard let row = dataSource[section].header else {
             return nil
         }
         guard let v = tableView.cd.view(row.cellClass, id:row.cellId, bundleFrom:row.bundleFrom ?? "") else {
@@ -78,55 +94,65 @@ extension RxViewController: UITableViewDelegate {
     }
 }
 
-struct FormItem {
-    var header: Item?
-    var footer: Item?
-    var items: [Item]
-}
-extension FormItem: SectionModelType {
-    typealias Item = CellProtocol
-    init(original: FormItem, items: [Item], header: Item? = nil, footer: Item? = nil) {
-        self.init(original: original, items: items)
-        self.header = header
-        self.footer = footer
-    }
-    
-    init(original: FormItem, items: [Item]) {
-        self = original
-        self.items = items
-    }
-}
+
 
 class VM_RxViewController {
-    var forms = BehaviorRelay<[FormItem]>(value: [])
+    var forms = BehaviorRelay<[FormRx]>(value: (0..<Section.end.rawValue).map{ _ in FormRx(items: []) })
+    
+    enum Section:Int {
+        case one = 0
+        case two
+        case end
+    }
+    
 }
+
 extension VM_RxViewController {
     func makeForm() {
+        
         do{
             let header:CellProtocol = RowCell<Header_Rx>(data: "第一组头", config: .red, frame: CGRect(h:40))
             let footer:CellProtocol = RowCell<Header_Rx>(data: "第一组组尾", config: .gray, frame: CGRect(h:30))
             
-            
-            var ff:[CellProtocol] = []
+            var rows:[CellProtocol] = []
             (0..<5).forEach { i in
                let data = RowTableViewCellBase.Model(title: "title-\(i)")
                 let row = RowCell<RowTableViewCellBase>(data: data, frame: CGRect(h:45)) {
                     print_cd("点击了-》title-\(i)")
                 }
-                ff += [row]
+                rows += [row]
             }
-            forms.accept(forms.value + [FormItem(header:header, footer: footer, items: ff)])
+            
+            //self.forms.value[1] = rows
+            
+            forms.accept([FormRx(header:header, footer: footer, items: rows)])
         }
         do{
             let header:CellProtocol = RowCell<Header_Rx>(data: "第二组组头", config: .yellow, frame: CGRect(h:40))
             let footer:CellProtocol = RowCell<Header_Rx>(data: "第二组组尾", config: .gray, frame: CGRect(h:30))
             
-            var ff:[CellProtocol] = []
-            (0..<10).forEach { i in
+            var rows:[CellProtocol] = []
+            (0..<5).forEach { i in
                 let row = RowCell<Cell_Image>(data: ("title-\(i)", "2020.1.\(i)"), frame: CGRect(h:CGFloat(60 + 10*i)))
-                ff += [row]
+                rows += [row]
             }
-            forms.accept(forms.value + [FormItem(header:header, footer: footer, items: ff)])
+            
+            forms.accept(forms.value + [FormRx(header:header, footer: footer, items: rows)])
+        }
+        append()
+        
+    }
+    
+    
+    func append() {
+        Time.after(3) {
+            var rows:[CellProtocol] = []
+            (0..<5).forEach { i in
+                let row = RowCell<Cell_Image>(data: ("title-\(i)", "2020.1.\(i)"), frame: CGRect(h:CGFloat(60 + 10*i)))
+                rows += [row]
+            }
+            
+            self.forms.accept([self.forms.value[0]] + [self.forms.value[1].append(rows: rows)])
         }
     }
 }

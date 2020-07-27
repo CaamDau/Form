@@ -19,22 +19,21 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         print("交换 = viewDidLoad")
-        tableView.cd.background(.red).estimatedAll()
+        tableView.cd.estimatedAll()
         
-        dea = FormXTableViewDelegateDataSource(vm.fff)
+        dea = FormXTableViewDelegateDataSource(nil)
         tableView.cd.delegate(dea).dataSource(dea)
-//        dea?.makeReloadData(tableView)
+        dea?.form = vm.fff
         
-//        vm.makeForm()
         
-        TTS().tts()
+        //TTS().tts()
     }
 }
 
 
 
 class VM_ViewController {
-    var fff:[FormXDataSource] = []
+    var fff:[FormX] = []
     init() {
         makeForm()
     }
@@ -45,15 +44,33 @@ class VM_ViewController {
 
 extension VM_ViewController {
     func makeForm() {
-        
-        (0..<100).forEach {
-           let data = RowTableViewCellBase.Model(title: "title-\($0)")
-            let row = RowCell<RowTableViewCellBase>(data: data, frame: CGRect(h:50))
-            fff.append(FormX(header: nil, footer: nil, rows: [row]))
+        do{
+            let rows = (0..<3).map {
+                RowCell<RowTableViewCellBase>(data: RowTableViewCellBase.Model(title: "title-\($0)"), frame: CGRect(h:50))
+            }
+            fff.append(FormX(header: nil, footer: nil, rows: rows))
         }
         
+        do{ // 随机混排
+            let header = RowCell<Header_Rx>(data: "组头2", config: .red, frame: CGRect(h:40))
+            let footer:CellProtocol = RowCell<Header_Rx>(data: "组尾2", config: .gray, frame: CGRect(h:30))
+            let rows = (0..<100).map { (i) -> CellProtocol in
+                switch Int(arc4random() % 2) {
+                case 0:
+                    return RowCell<RowTableViewCellBase>(data: RowTableViewCellBase.Model(title: "title-\(i)"), frame: CGRect(h:50))
+                default:
+                    return RowCell<Cell_Image>(data: ("title-\(i)", "2020.1.\(i)"), frame: CGRect(h:CGFloat(60)))
+                }
+            }
+            fff.append(FormX(header: header, footer: footer, rows: rows))
+        }
         
-        
+        do{
+            let rows = (10..<13).map {
+                RowCell<RowTableViewCellBase>(data: RowTableViewCellBase.Model(title: "title-\($0)"), frame: CGRect(h:50))
+            }
+            fff[0] = fff[0].append(rows: rows)
+        }
         
         /*
         var ff:[CellProtocol] = []
@@ -82,6 +99,46 @@ extension VM_ViewController: FormProtocol {
         }
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 class TTS {

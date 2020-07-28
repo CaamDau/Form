@@ -1,9 +1,8 @@
 //Created  on 2019/12/19 by  LCD:https://github.com/liucaide .
 
 /***** 模块文档 *****
- * FormXViewController 包含两类
- * 1、普通MVVM模式
- * 2、MVC模式
+ *
+ *
  */
 
 
@@ -11,65 +10,12 @@
 
 import UIKit
 
-//@IBDesignable
-/// ViewController 组装基类，里面包含一个 StackView
-open class FormXViewController: UIViewController {
-    public lazy var stackView: UIStackView = {
-        let v = UIStackView()
-        v.axis = .vertical
-        return v
-    }()
-    /// 头部安全区约束
-    open var safeAreaTop:Bool = true
-    /// 尾部安全区约束
-    open var safeAreaBottom:Bool = true
-    
-    open override func viewDidLoad() {
-        super.viewDidLoad()
-        self.view.backgroundColor = .cd_hex("f", dark: "0")
-        makeStackView()
-    }
-}
-
-extension FormXViewController {
-    @objc func makeStackView() {
-        self.view.addSubview(stackView)
-        
-        stackView.translatesAutoresizingMaskIntoConstraints = false
-        if #available(iOS 11.0, *) {
-            stackView.leadingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leadingAnchor).isActive = true
-            stackView.trailingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.trailingAnchor).isActive = true
-        } else {
-            stackView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor).isActive = true
-            stackView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor).isActive = true
-        }
-        
-        if !safeAreaTop {
-            
-            stackView.topAnchor.constraint(equalTo: self.view.topAnchor).isActive = true
-        }else if #available(iOS 11.0, *) {
-            stackView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor).isActive = true
-        } else {
-            stackView.topAnchor.constraint(equalTo: self.topLayoutGuide.topAnchor).isActive = true
-        }
-        
-        if !safeAreaBottom {
-            stackView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor).isActive = true
-        }else if #available(iOS 11.0, *) {
-            stackView.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor).isActive = true
-        } else {
-            stackView.topAnchor.constraint(equalTo: self.bottomLayoutGuide.bottomAnchor).isActive = true
-        }
-    }
-}
-
-
 
 
 //@IBDesignable
 /// TableViewController 组装基类，Form 协议 下的普通 MVVM 模式
-/// 继承自FormXViewController，StackView内包含一个 TableView
-open class FormXTableViewController: FormXViewController {
+/// 继承自FormViewController，StackView内包含一个 TableView
+open class FormXTableViewController: FormViewController {
     open lazy var tableView: UITableView = {
         return UITableView(frame: CGRect.zero, style: style)
     }()
@@ -98,8 +44,8 @@ extension FormXTableViewController {
 
 //@IBDesignable
 /// CollectionViewController 组装基类，Form 协议 下的普通 MVVM 模式
-/// 继承自FormXViewController，StackView内包含一个 CollectionView
-open class FormXCollectionViewController: FormXViewController {
+/// 继承自FormViewController，StackView内包含一个 CollectionView
+open class FormXCollectionViewController: FormViewController {
     
     open lazy var flowLayout: UICollectionViewLayout = {
         return UICollectionViewFlowLayout()

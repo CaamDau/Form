@@ -1,7 +1,7 @@
 //Created  on 2020/7/29 by  LCD:https://github.com/liucaide .
 
 /***** 模块文档 *****
- *
+ * 代码来源于：Pircate：https://github.com/Pircate/RxSwiftX
  */
 
 import RxSwift

@@ -19,16 +19,17 @@ Pod::Spec.new do |s|
   
   s.subspec 'Core' do |ss|
     ss.source_files = 'Form/Core/**/*'
+    ss.dependency 'CaamDauExtension'
   end
   
   s.subspec 'Rx' do |ss|
     ss.source_files = 'Form/Rx/**/*'
     ss.dependency 'CaamDauForm/Core'
-    ss.dependency 'RxSwift'
-    ss.dependency 'RxCocoa'
-    ss.dependency 'RxDataSources'
+    ss.dependency 'RxSwift', '5.1.1'
+    ss.dependency 'RxCocoa', '5.1.1'
+    ss.dependency 'RxDataSources', '4.0.1'
   end
   
-  s.dependency 'CaamDauExtension'
+  
   s.frameworks = 'UIKit', 'Foundation'
 end

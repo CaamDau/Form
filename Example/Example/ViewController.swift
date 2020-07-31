@@ -88,7 +88,7 @@ extension VM_ViewController {
         
         do{ // 随机混排
             let header = RowCell<Header_Rx>(data: "组头2", config: .red, frame: CGRect(h:40))
-            let footer:CellProtocol = RowCell<Header_Rx>(data: "组尾2", config: .gray, frame: CGRect(h:30))
+            let footer = RowCell<Header_Rx>(data: "组尾2", config: .gray, frame: CGRect(h:30))
             let rows = (0..<100).map { (i) -> CellProtocol in
                 switch Int(arc4random() % 2) {
                 case 0:

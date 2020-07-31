@@ -36,20 +36,20 @@ class ViewController: UIViewController {
     
     @IBOutlet weak var tableView: UITableView!
     var vm = VM_ViewController()
-    var dea:FormTableViewDelegateDataSourceX?
+    var proxy:FormTableViewDelegateDataSourceX?
     override func viewDidLoad() {
         super.viewDidLoad()
         print("交换 = viewDidLoad")
         tableView.cd.estimatedAll()
         
-        dea = FormTableViewDelegateDataSourceX(nil)
-        dea?.makeDelegateDataSource(tableView)
+        proxy = FormTableViewDelegateDataSourceX(nil)
+        proxy?.makeDelegateDataSource(tableView)
         
         
         vm.output = { [weak self]put in
             switch put {
             case .reload:
-                self?.dea?.form = self!.vm.fff
+                self?.proxy?.form = self!.vm.forms
                 self?.tableView.reloadData()
             default:
                 break
@@ -66,10 +66,8 @@ class ViewController: UIViewController {
     }
 }
 
-
-
 class VM_ViewController {
-    var fff:[FormX] = []
+    var forms:[FormX] = []
     init() {
         
     }
@@ -85,7 +83,7 @@ extension VM_ViewController {
             let rows = (0..<3).map {
                 RowCell<RowTableViewCellBase>(data: RowTableViewCellBase.Model(title: "title-\($0)"), frame: CGRect(h:50))
             }
-            fff.append(FormX(items: rows))
+            forms.append(FormX(items: rows))
         }
         
         do{ // 随机混排
@@ -99,14 +97,14 @@ extension VM_ViewController {
                     return RowCell<Cell_Image>(data: ("title-\(i)", "2020.1.\(i)"), frame: CGRect(h:CGFloat(60)))
                 }
             }
-            fff.append(FormX(items: rows, header: header, footer: footer))
+            forms.append(FormX(items: rows, header: header, footer: footer))
         }
         
         do{
             let rows = (10..<13).map {
                 RowCell<RowTableViewCellBase>(data: RowTableViewCellBase.Model(title: "title-\($0)"), frame: CGRect(h:50))
             }
-            fff[0] = fff[0].append(items: rows)
+            forms[0] = forms[0].append(items: rows)
         }
         output?(.reload)
         /*

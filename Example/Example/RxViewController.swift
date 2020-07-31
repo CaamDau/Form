@@ -21,13 +21,13 @@ class RxViewController: UIViewController {
     @IBOutlet weak var tableView: UITableView!
     var vm = VM_RxViewController()
     let disposeBag = DisposeBag()
-    var deleDa:FormRxTableViewDelegateDataSource?
+    var proxy:FormRxTableViewDelegateDataSource?
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        deleDa = FormRxTableViewDelegateDataSource(forms: vm.forms, tableView: tableView)
+        proxy = FormRxTableViewDelegateDataSource(forms: vm.forms, tableView: tableView)
         
         vm.makeForm()
     }

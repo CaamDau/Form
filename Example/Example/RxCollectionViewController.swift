@@ -12,15 +12,15 @@ import UIKit
 class RxCollectionViewController: UIViewController {
 
     @IBOutlet weak var collectionView: UICollectionView!
-    var vm = VM_RxCollectionViewController()
     let disposeBag = DisposeBag()
-    var deleDa:FormRxCollectionViewDelegateDataSource?
+    var vm = VM_RxCollectionViewController()
+    var proxy:FormRxCollectionViewDelegateDataSource?
         
         
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        deleDa = FormRxCollectionViewDelegateDataSource(forms: vm.forms, collectionView: collectionView)
+        proxy = FormRxCollectionViewDelegateDataSource(forms: vm.forms, collectionView: collectionView)
         
         self.vm.output = { [weak self]put in
             switch put {

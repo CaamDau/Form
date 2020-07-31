@@ -65,7 +65,7 @@ extension VM_RxViewController {
             
             //self.forms.value[1] = rows
             
-            forms.accept([FormRx(header:header, footer: footer, items: rows)])
+            forms.accept([FormRx(items: rows, header:header, footer: footer)])
         }
         do{
             let header:CellProtocol = RowCell<Header_Rx>(data: "第二组组头", config: .yellow, frame: CGRect(h:40))
@@ -77,7 +77,7 @@ extension VM_RxViewController {
                 rows += [row]
             }
             
-            forms.accept(forms.value + [FormRx(header:header, footer: footer, items: rows)])
+            forms.accept(forms.value + [FormRx(items: rows, header:header, footer: footer)])
         }
         append()
         

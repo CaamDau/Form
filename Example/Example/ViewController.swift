@@ -10,19 +10,41 @@ import Foundation
 import UIKit
 import CaamDauForm
 
+//MARK:--- 指令模式 ViewModel 协议 ----------
+public protocol ViewModelProtocol {
+    associatedtype Input
+    associatedtype Output
+    func input(_ input:Input)
+    var output:((Output)->Void)? { set get }
+}
+
+/// 基本输入指令, I 自定义扩展指令
+public enum InputType<R,P> {
+    case request(R?)
+    case put(P?)
+}
+/// 基本输出指令，O 自定义扩展指令
+public enum OutputType<L, R, H, P> {
+    case load(L?)
+    case reload(R?)
+    case hud(H?)
+    case put(P?)
+}
+
 
 class ViewController: UIViewController {
     
     @IBOutlet weak var tableView: UITableView!
     var vm = VM_ViewController()
-    var dea:FormXTableViewDelegateDataSource?
+    var dea:FormTableViewDelegateDataSourceX?
     override func viewDidLoad() {
         super.viewDidLoad()
         print("交换 = viewDidLoad")
         tableView.cd.estimatedAll()
         
-        dea = FormXTableViewDelegateDataSource(nil)
-        tableView.cd.delegate(dea).dataSource(dea)
+        dea = FormTableViewDelegateDataSourceX(nil)
+        dea?.makeDelegateDataSource(tableView)
+        
         
         vm.output = { [weak self]put in
             switch put {
@@ -63,7 +85,7 @@ extension VM_ViewController {
             let rows = (0..<3).map {
                 RowCell<RowTableViewCellBase>(data: RowTableViewCellBase.Model(title: "title-\($0)"), frame: CGRect(h:50))
             }
-            fff.append(FormX(header: nil, footer: nil, rows: rows))
+            fff.append(FormX(items: rows))
         }
         
         do{ // 随机混排
@@ -77,14 +99,14 @@ extension VM_ViewController {
                     return RowCell<Cell_Image>(data: ("title-\(i)", "2020.1.\(i)"), frame: CGRect(h:CGFloat(60)))
                 }
             }
-            fff.append(FormX(header: header, footer: footer, rows: rows))
+            fff.append(FormX(items: rows, header: header, footer: footer))
         }
         
         do{
             let rows = (10..<13).map {
                 RowCell<RowTableViewCellBase>(data: RowTableViewCellBase.Model(title: "title-\($0)"), frame: CGRect(h:50))
             }
-            fff[0] = fff[0].append(rows: rows)
+            fff[0] = fff[0].append(items: rows)
         }
         output?(.reload)
         /*
@@ -112,7 +134,7 @@ extension VM_ViewController {
     }
 }
 
-extension VM_ViewController: FormViewModelProtocol {
+extension VM_ViewController: ViewModelProtocol {
     func input(_ input: InputType) {
         switch input {
         case .refresh(_):

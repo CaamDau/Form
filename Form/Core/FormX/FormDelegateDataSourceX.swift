@@ -9,29 +9,32 @@
 
 import Foundation
 
-open class FormXDelegateDataSource: NSObject {
-    open var form: [FormXDataSource]?
+open class FormDelegateDataSourceX: NSObject {
+    open var form: [FormDataSourceX]?
     private override init(){}
-    public init(_ form:[FormXDataSource]?) {
+    public init(_ form:[FormDataSourceX]?) {
         self.form = form
     }
 }
 
 
 //MARK:--- TableView DelegateDataSource ----------
-open class FormXTableViewDelegateDataSource: FormXDelegateDataSource {
-
+open class FormTableViewDelegateDataSourceX: FormDelegateDataSourceX {
+    @objc open func makeDelegateDataSource(_ tableView:UITableView) {
+        tableView.delegate = self
+        tableView.dataSource = self
+    }
 }
 
-extension FormXTableViewDelegateDataSource: UITableViewDelegate, UITableViewDataSource {
+extension FormTableViewDelegateDataSourceX: UITableViewDelegate, UITableViewDataSource {
     open func numberOfSections(in tableView: UITableView) -> Int {
         return form?.count ?? 0
     }
     open func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return form?[section].rows.count ?? 0
+        return form?[section].items.count ?? 0
     }
     open func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let row = form?[indexPath.section].rows[indexPath.row] else {
+        guard let row = form?[indexPath.section].items[indexPath.row] else {
             return UITableViewCell()
         }
         let cell = tableView.cd.cell(row.cellClass, id:row.cellId, bundleFrom:row.bundleFrom ?? "") ?? UITableViewCell()
@@ -40,13 +43,13 @@ extension FormXTableViewDelegateDataSource: UITableViewDelegate, UITableViewData
     }
     open func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        guard let row = form?[indexPath.section].rows[indexPath.row] else {
+        guard let row = form?[indexPath.section].items[indexPath.row] else {
             return
         }
         row.tapBlock?()
     }
     open func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        guard let row = form?[indexPath.section].rows[indexPath.row] else {
+        guard let row = form?[indexPath.section].items[indexPath.row] else {
             return 0
         }
         return row.h
@@ -55,7 +58,7 @@ extension FormXTableViewDelegateDataSource: UITableViewDelegate, UITableViewData
         if let h = form?[section].header?.h {
             return h
         }
-        else if let h = form?[section].rows.first?.insets.top, h > 0 {
+        else if let h = form?[section].items.first?.insets.top, h > 0 {
             return h
         }
         else {
@@ -66,7 +69,7 @@ extension FormXTableViewDelegateDataSource: UITableViewDelegate, UITableViewData
         if let h = form?[section].footer?.h {
             return h
         }
-        else if let h = form?[section].rows.first?.insets.bottom, h > 0 {
+        else if let h = form?[section].items.first?.insets.bottom, h > 0 {
             return h
         }
         else {
@@ -98,30 +101,31 @@ extension FormXTableViewDelegateDataSource: UITableViewDelegate, UITableViewData
 
 
 //MARK:--- CollectionView DelegateDataSource ----------
-open class FormXCollectionViewDelegateDataSource: FormXDelegateDataSource {
+open class FormCollectionViewDelegateDataSourceX: FormDelegateDataSourceX {
     
 }
-extension FormXCollectionViewDelegateDataSource {
-    @objc open func makeReloadData(_ collectionView:UICollectionView) {
-        
+extension FormCollectionViewDelegateDataSourceX {
+    @objc open func makeDelegateDataSource(_ collectionView:UICollectionView) {
+        collectionView.delegate = self
+        collectionView.dataSource = self
     }
 }
 
-extension FormXCollectionViewDelegateDataSource: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+extension FormCollectionViewDelegateDataSourceX: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     open func numberOfSections(in collectionView: UICollectionView) -> Int {
         return form?.count ?? 0
     }
     
     open func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return form?[section].rows.count ?? 0
+        return form?[section].items.count ?? 0
     }
     
     open func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return form?[indexPath.section].rows[indexPath.row].size ?? .zero
+        return form?[indexPath.section].items[indexPath.row].size ?? .zero
     }
     
     open func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let row = form?[indexPath.section].rows[indexPath.row] else {
+        guard let row = form?[indexPath.section].items[indexPath.row] else {
             return collectionView.cd.cell(RowCollectionViewCellNone.id, indexPath)
         }
         let cell = collectionView.cd.cell(row.cellId, indexPath)
@@ -129,7 +133,7 @@ extension FormXCollectionViewDelegateDataSource: UICollectionViewDelegate, UICol
         return cell
     }
     open func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        guard let row = form?[indexPath.section].rows[indexPath.row] else {
+        guard let row = form?[indexPath.section].items[indexPath.row] else {
             return
         }
         row.tapBlock?()
@@ -139,7 +143,7 @@ extension FormXCollectionViewDelegateDataSource: UICollectionViewDelegate, UICol
         if let header = form?[section].header {
             return header.y
         }else{
-            return form?[section].rows.first?.y ?? 0
+            return form?[section].items.first?.y ?? 0
         }
         
     }
@@ -147,7 +151,7 @@ extension FormXCollectionViewDelegateDataSource: UICollectionViewDelegate, UICol
         if let header = form?[section].header  {
             return header.x
         }else{
-            return form?[section].rows.first?.x ?? 0
+            return form?[section].items.first?.x ?? 0
         }
     }
     
@@ -159,7 +163,7 @@ extension FormXCollectionViewDelegateDataSource: UICollectionViewDelegate, UICol
             return footer.insets
         }
         else{
-            return form?[section].rows.first?.insets ?? .zero
+            return form?[section].items.first?.insets ?? .zero
         }
     }
     

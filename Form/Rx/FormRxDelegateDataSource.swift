@@ -12,21 +12,53 @@ import RxCocoa
 import RxSwift
 import RxDataSources
 
+
+
+
+
+
+
 open class FormRxTableViewDelegateDataSource: NSObject {
-    public let dataSource = RxTableViewSectionedReloadDataSource<FormRx>(
+    public let dataSource = RxTableViewSectionedReloadDataSourceX<FormRx>(
         configureCell: { (dataSource, tableView, indexPath, item) -> UITableViewCell in
             let row = item
             let cell = tableView.cd.cell(row.cellClass, id:row.cellId, bundleFrom:row.bundleFrom ?? "") ?? UITableViewCell()
             row.bind(cell)
             return cell
             
+    }, heightForRowAtIndexPath: { (dataSource, tableView, indexPath, item) -> CGFloat in
+        return item.h
+    }, heightForHeaderInSection: { (dataSource, tableView, section) -> CGFloat in
+        return dataSource[section].header?.h ?? 0.001
+    }, heightForFooterInSection: { (dataSource, tableView, section) -> CGFloat in
+        return dataSource[section].footer?.h ?? 0.001
+    }, viewForHeaderInSection: { (dataSource, tableView, section) -> UIView? in
+        guard let row = dataSource[section].header else {
+            return nil
+        }
+        guard let v = tableView.cd.view(row.cellClass, id:row.cellId, bundleFrom:row.bundleFrom ?? "") else {
+            return nil
+        }
+        row.bind(v)
+        return v
+    }, viewForFooterInSection: { (dataSource, tableView, section) -> UIView? in
+        guard let row = dataSource[section].header else {
+            return nil
+        }
+        guard let v = tableView.cd.view(row.cellClass, id:row.cellId, bundleFrom:row.bundleFrom ?? "") else {
+            return nil
+        }
+        row.bind(v)
+        return v
     })
+    
     let disposeBag = DisposeBag()
     
     public init(forms:BehaviorRelay<[FormRx]>, tableView:UITableView) {
         super.init()
+        
         forms
-            .bind(to: tableView.rx.items(dataSource: dataSource))
+            .bind(to: tableView.rx.items(proxy: dataSource))
             .disposed(by: disposeBag)
         
         tableView.rx
@@ -36,9 +68,21 @@ open class FormRxTableViewDelegateDataSource: NSObject {
             })
             .disposed(by: disposeBag)
         
-        tableView.rx.setDelegate(self).disposed(by: disposeBag)
+        
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
 
 extension FormRxTableViewDelegateDataSource: UITableViewDelegate {
     open func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
@@ -74,7 +118,7 @@ extension FormRxTableViewDelegateDataSource: UITableViewDelegate {
 
 
 open class FormRxCollectionViewDelegateDataSource: NSObject {
-    public let dataSource = RxCollectionViewSectionedReloadDataSource<FormRx>(configureCell: { (dataSource, collectionView, indexPath, item) -> UICollectionViewCell in
+    public let dataSource = RxCollectionViewSectionedReloadDataSourceX<FormRx>.init(configureCell: { (dataSource, collectionView, indexPath, item) -> UICollectionViewCell in
         let row = item
         let cell = collectionView.cd.cell(row.cellId, indexPath)
         row.bind(cell)
@@ -96,6 +140,34 @@ open class FormRxCollectionViewDelegateDataSource: NSObject {
             row.bind(v)
             return v
         }
+    }, sizeForItemAtIndexPath: { (dataSource, layout, indexPath) -> CGSize in
+        return dataSource[indexPath.section].items[indexPath.row].size
+    }, insetForSectionAtSection: { (dataSource, layout, section) -> UIEdgeInsets in
+        if let header = dataSource[section].header {
+            return header.insets
+        }
+        else if let footer = dataSource[section].footer {
+            return footer.insets
+        }
+        else{
+            return dataSource[section].items.first?.insets ?? .zero
+        }
+    }, minimumLineSpacingForSectionAtSection: {(dataSource, layout, section) -> CGFloat in
+        if let header = dataSource[section].header  {
+            return header.y
+        }else{
+            return dataSource[section].items.first?.x ?? 0
+        }
+    }, minimumInteritemSpacingForSectionAtSection: {(dataSource, layout, section) -> CGFloat in
+        if let header = dataSource[section].header  {
+            return header.x
+        }else{
+            return dataSource[section].items.first?.x ?? 0
+        }
+    }, referenceSizeForHeaderInSection: { (dataSource, layout, section) -> CGSize in
+        return dataSource[section].header?.size ?? .zero
+    }, referenceSizeForFooterInSection: { (dataSource, layout, section) -> CGSize in
+        return dataSource[section].footer?.size ?? .zero
     })
     
     let disposeBag = DisposeBag()
@@ -103,7 +175,7 @@ open class FormRxCollectionViewDelegateDataSource: NSObject {
     public init(forms:BehaviorRelay<[FormRx]>, collectionView:UICollectionView) {
         super.init()
         forms
-            .bind(to: collectionView.rx.items(dataSource: dataSource))
+            .bind(to: collectionView.rx.items(proxy: dataSource))
             .disposed(by: disposeBag)
         
         collectionView.rx
@@ -112,8 +184,6 @@ open class FormRxCollectionViewDelegateDataSource: NSObject {
                 item.tapBlock?()
             })
             .disposed(by: disposeBag)
-        
-        collectionView.rx.setDelegate(self).disposed(by: disposeBag)
     }
 }
 
@@ -123,12 +193,12 @@ extension FormRxCollectionViewDelegateDataSource: UICollectionViewDelegate, UICo
         return dataSource[indexPath.section].items[indexPath.row].size
     }
     
-    open func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForFooterInSection section: Int) -> CGSize {
-        return dataSource[section].footer?.size ?? .zero
-    }
-    
     open func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
         return dataSource[section].header?.size ?? .zero
+    }
+    
+    open func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForFooterInSection section: Int) -> CGSize {
+        return dataSource[section].footer?.size ?? .zero
     }
     
     open func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {

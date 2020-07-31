@@ -4,8 +4,6 @@
 <dict>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
-	<key>CFBundleDisplayName</key>
-	<string>$(PRODUCT_NAME)</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
@@ -15,83 +13,32 @@
 	<key>CFBundleName</key>
 	<string>$(PRODUCT_NAME)</string>
 	<key>CFBundlePackageType</key>
-	<string>APPL</string>
+	<string>$(PRODUCT_BUNDLE_PACKAGE_TYPE)</string>
 	<key>CFBundleShortVersionString</key>
 	<string>1.0</string>
-	<key>CFBundleURLTypes</key>
-	<array>
-		<dict>
-			<key>CFBundleTypeRole</key>
-			<string>Editor</string>
-			<key>CFBundleURLSchemes</key>
-			<array>
-				<string>alipayCaamDau</string>
-			</array>
-		</dict>
-		<dict>
-			<key>CFBundleTypeRole</key>
-			<string>Editor</string>
-			<key>CFBundleURLSchemes</key>
-			<array>
-				<string>uppayCaamDau</string>
-			</array>
-		</dict>
-		<dict>
-			<key>CFBundleTypeRole</key>
-			<string>Editor</string>
-			<key>CFBundleURLSchemes</key>
-			<array>
-				<string>wxda000000</string>
-			</array>
-		</dict>
-		<dict>
-			<key>CFBundleTypeRole</key>
-			<string>Editor</string>
-			<key>CFBundleURLSchemes</key>
-			<array>
-				<string>caamdau</string>
-			</array>
-		</dict>
-	</array>
 	<key>CFBundleVersion</key>
-	<string>154</string>
+	<string>1</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
-	<key>NSAppTransportSecurity</key>
+	<key>UIApplicationSceneManifest</key>
 	<dict>
-		<key>NSAllowsArbitraryLoads</key>
-		<true/>
-		<key>NSExceptionDomains</key>
+		<key>UIApplicationSupportsMultipleScenes</key>
+		<false/>
+		<key>UISceneConfigurations</key>
 		<dict>
-			<key>testebank.sdb.com.cn</key>
-			<dict>
-				<key>NSExceptionAllowInsecureHTTPLoads</key>
-				<true/>
-				<key>NSExceptionMinimumTLSVersion</key>
-				<string>TLSv1.1</string>
-				<key>NSExceptionRequiresForwardSecrecy</key>
-				<false/>
-				<key>NSIncludesSubdomains</key>
-				<true/>
-				<key>NSThirdPartyExceptionAllowsInsecureHTTPLoads</key>
-				<true/>
-				<key>NSThirdPartyExceptionMinimumTLSVersion</key>
-				<string>TLSv1.1</string>
-				<key>NSThirdPartyExceptionRequiresForwardSecrecy</key>
-				<false/>
-			</dict>
+			<key>UIWindowSceneSessionRoleApplication</key>
+			<array>
+				<dict>
+					<key>UISceneConfigurationName</key>
+					<string>Default Configuration</string>
+					<key>UISceneDelegateClassName</key>
+					<string>$(PRODUCT_MODULE_NAME).SceneDelegate</string>
+					<key>UISceneStoryboardFile</key>
+					<string>Main</string>
+				</dict>
+			</array>
 		</dict>
 	</dict>
-	<key>NSCameraUsageDescription</key>
-	<string>App需要您的允许，才能访问相机，若不允许，App将无法正常提供图片发布服务。</string>
-	<key>NSLocationAlwaysUsageDescription</key>
-	<string>App需要您的允许，才能访问您的位置；若不允许，App将无法提供精准定位、搜索服务。</string>
-	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>App需要您的允许，才能在使用期间访问您的位置；若不允许，App将无法提供精准定位、搜索服务。</string>
-	<key>NSMicrophoneUsageDescription</key>
-	<string>App需要您的允许，才能开启麦克风，若不允许，App将无法正常提供服务。</string>
-	<key>NSPhotoLibraryUsageDescription</key>
-	<string>App需要您的允许，才能访问相册，若不允许，App将无法正常提供图片发布服务。</string>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>
@@ -100,17 +47,11 @@
 	<array>
 		<string>armv7</string>
 	</array>
-	<key>UIRequiresFullScreen</key>
-	<true/>
-	<key>UIStatusBarHidden</key>
-	<false/>
-	<key>UIStatusBarStyle</key>
-	<string>UIStatusBarStyleDefault</string>
 	<key>UISupportedInterfaceOrientations</key>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
-		<string>UIInterfaceOrientationLandscapeRight</string>
 		<string>UIInterfaceOrientationLandscapeLeft</string>
+		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
 	<key>UISupportedInterfaceOrientations~ipad</key>
 	<array>
@@ -119,7 +60,5 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
-	<key>UIViewControllerBasedStatusBarAppearance</key>
-	<true/>
 </dict>
 </plist>

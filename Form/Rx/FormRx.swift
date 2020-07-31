@@ -18,6 +18,11 @@ public struct FormRx {
 
 extension FormRx: SectionModelType {
     public typealias Item = CellProtocol
+    public init(items: [Item], header: Item? = nil, footer: Item? = nil) {
+        self.items = items
+        self.header = header
+        self.footer = footer
+    }
     public init(original: FormRx, items: [Item], header: Item? = nil, footer: Item? = nil) {
         self.init(original: original, items: items)
         self.header = header

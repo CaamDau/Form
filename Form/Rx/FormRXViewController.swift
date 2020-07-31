@@ -17,7 +17,7 @@ import RxDataSources
 /// 继承自FormViewController，StackView内包含一个 TableView
 open class FormRxTableViewController: FormViewController {
     open var delegateData: FormRxTableViewDelegateDataSource?
-    open var forms: BehaviorRelay<[FormRx]>!
+    open var forms: BehaviorRelay<[FormRx]>?
     
     open lazy var tableView: UITableView = {
         return UITableView(frame: CGRect.zero, style: style)
@@ -48,7 +48,7 @@ extension FormRxTableViewController {
 /// 继承自FormViewController，StackView内包含一个 CollectionView
 open class FormRxCollectionViewController: FormViewController {
     open var delegateData: FormRxCollectionViewDelegateDataSource?
-    open var forms: BehaviorRelay<[FormRx]>!
+    open var forms: BehaviorRelay<[FormRx]>?
     
     open lazy var flowLayout: UICollectionViewLayout = {
         return UICollectionViewFlowLayout()
@@ -70,7 +70,7 @@ extension FormRxCollectionViewController {
         stackView.addArrangedSubview(collectionView)
         forms = nil
         guard let forms = forms else {
-            assertionFailure("👉👉👉 - forms 未初始化,可重写 makeTableView 初始化在此之前  👻")
+            assertionFailure("👉👉👉 - forms 未初始化,可重写 makeCollectionView 初始化在此之前  👻")
             return
         }
         delegateData = FormRxCollectionViewDelegateDataSource(forms: forms, collectionView: collectionView)
